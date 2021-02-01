@@ -1,0 +1,26 @@
+name: EasyChat
+description: A new Flutter project.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.0
+  firebase_auth: ^0.20.0+1
+  firebase_core: ^0.7.0
+  google_sign_in: ^4.5.9
+  cloud_firestore: ^0.16.0
+  shared_preferences: ^0.5.12+4
+  random_string: ^2.1.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
