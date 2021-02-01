@@ -1,12 +1,15 @@
+import 'package:EasyChat/screens/home.dart';
+import 'package:EasyChat/services/database.dart';
 import 'package:EasyChat/services/sharedprefhelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthMethods {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  getCurrentUser() {
+  getCurrentUser() async {
     return auth.currentUser;
   }
 
@@ -32,9 +35,25 @@ class AuthMethods {
 
     if (result != null) {
       SharedPrefHelper().saveUserId(userDetails.uid);
+      SharedPrefHelper().saveUserName(userDetails.email.split("@")[0]);
       SharedPrefHelper().saveDisplayName(userDetails.displayName);
       SharedPrefHelper().saveUserEmail(userDetails.email);
       SharedPrefHelper().saveUserProfilePic(userDetails.photoURL);
+
+      Map<String, dynamic> userInfoMap = {
+        "userId": userDetails.uid,
+        "userName": userDetails.email.split("@")[0],
+        "displayName": userDetails.displayName,
+        "userEmail": userDetails.email,
+        "userProfilePic": userDetails.photoURL,
+      };
+
+      DatabaseMethods()
+          .addUserInfoToDB(userDetails.uid, userInfoMap)
+          .then((value) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      });
     }
   }
 }

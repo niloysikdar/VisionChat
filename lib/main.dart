@@ -1,4 +1,6 @@
+import 'package:EasyChat/screens/home.dart';
 import 'package:EasyChat/screens/signin.dart';
+import 'package:EasyChat/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +19,16 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SignInPage(),
+      home: FutureBuilder(
+        future: AuthMethods().getCurrentUser(),
+        builder: (context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasData) {
+            return Home();
+          } else {
+            return SignInPage();
+          }
+        },
+      ),
     );
   }
 }
