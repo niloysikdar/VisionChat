@@ -11,9 +11,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text("EasyChat"),
-        ),
+        title: Text("EasyChat"),
         elevation: 5.0,
       ),
       body: Container(

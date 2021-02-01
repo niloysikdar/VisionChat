@@ -1,3 +1,5 @@
+import 'package:EasyChat/screens/signin.dart';
+import 'package:EasyChat/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -10,10 +12,31 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text("EasyChat"),
-        ),
         elevation: 5.0,
+        toolbarHeight: 60.0,
+        title: Text("EasyChat"),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              AuthMethods().signOut().then((value) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SignInPage(),
+                  ),
+                );
+              });
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 10.0),
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              child: Icon(
+                Icons.logout,
+                size: 30.0,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
