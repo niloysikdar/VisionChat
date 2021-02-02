@@ -11,7 +11,9 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff1db954),
         title: Text("EasyChat"),
+        toolbarHeight: 60.0,
         elevation: 5.0,
       ),
       body: Container(
