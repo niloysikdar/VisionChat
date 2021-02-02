@@ -1,5 +1,8 @@
+import 'package:EasyChat/screens/chatscreen.dart';
 import 'package:EasyChat/screens/signin.dart';
 import 'package:EasyChat/services/auth.dart';
+import 'package:EasyChat/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -9,7 +12,95 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool isSearching = true;
+  Stream userStream;
   TextEditingController searchUserController = TextEditingController();
+
+  onSearchBtnClick() async {
+    setState(() {
+      isSearching = !isSearching;
+    });
+    userStream = await DatabaseMethods()
+        .getUserbyUsername(searchUserController.text.trim());
+    setState(() {});
+  }
+
+  Widget searchUserTile({String profilepic, String displayName}) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ChatScreen()),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.all(20.0),
+        padding:
+            EdgeInsets.only(left: 15.0, top: 10.0, right: 5.0, bottom: 10.0),
+        decoration: BoxDecoration(
+          color: Colors.grey[400],
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(40.0),
+              child: Image.network(
+                profilepic,
+                height: 50.0,
+                width: 50.0,
+              ),
+            ),
+            SizedBox(width: 15.0),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    displayName,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget searchUserResult() {
+    return StreamBuilder(
+      stream: userStream,
+      builder: (context, snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  DocumentSnapshot ds = snapshot.data.docs[index];
+                  return searchUserTile(
+                    profilepic: ds["userProfilePic"],
+                    displayName: ds["displayName"],
+                  );
+                },
+              )
+            : Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              );
+      },
+    );
+  }
+
+  Widget chatRoomList() {
+    return Container();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +203,7 @@ class _HomeState extends State<Home> {
                             width: 1.0,
                           ),
                         ),
-                        labelText: "Search",
+                        labelText: "Search username",
                         labelStyle: TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,
@@ -123,10 +214,9 @@ class _HomeState extends State<Home> {
                   isSearching
                       ? GestureDetector(
                           onTap: () {
-                            setState(() {
-                              isSearching = !isSearching;
-                              searchUserController.text = "";
-                            });
+                            if (searchUserController.text != "") {
+                              onSearchBtnClick();
+                            }
                           },
                           child: Container(
                             child: Icon(
@@ -139,6 +229,7 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
+            !isSearching ? searchUserResult() : chatRoomList(),
           ],
         ),
       ),
