@@ -2,6 +2,7 @@ import 'package:EasyChat/screens/chatscreen.dart';
 import 'package:EasyChat/screens/signin.dart';
 import 'package:EasyChat/services/auth.dart';
 import 'package:EasyChat/services/database.dart';
+import 'package:EasyChat/services/sharedprefhelper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool isSearching = true;
+  String myname, myUsername, myEmail, myProfilePic;
   Stream userStream;
   TextEditingController searchUserController = TextEditingController();
 
@@ -24,12 +26,39 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
-  Widget searchUserTile({String profilepic, String displayName}) {
+  getMyInfoFromSharedPref() async {
+    myname = await SharedPrefHelper().getDisplayName();
+    myUsername = await SharedPrefHelper().getUserName();
+    myEmail = await SharedPrefHelper().getUserEmail();
+    myProfilePic = await SharedPrefHelper().getUserProfilePic();
+  }
+
+  getChatRoomId(String user1, String user2) {
+    if (user1.compareTo(user2) == 1) {
+      return "$user1\_$user2";
+    } else {
+      return "$user2\_$user1";
+    }
+  }
+
+  Widget searchUserTile(
+      {String profilepic, String displayName, String userName}) {
     return GestureDetector(
       onTap: () {
+        var chatRoomId = getChatRoomId(myUsername, userName);
+        Map<String, dynamic> chatRoomInfoMap = {
+          "users": [myUsername, userName],
+        };
+        DatabaseMethods().createChatRoom(chatRoomId, chatRoomInfoMap);
+
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ChatScreen()),
+          MaterialPageRoute(
+              builder: (context) => ChatScreen(
+                    chatWithUserName: userName,
+                    chatWithUserDisplayName: displayName,
+                    chatWithUserprofilepic: profilepic,
+                  )),
         );
       },
       child: Container(
@@ -86,6 +115,7 @@ class _HomeState extends State<Home> {
                   return searchUserTile(
                     profilepic: ds["userProfilePic"],
                     displayName: ds["displayName"],
+                    userName: ds["userName"],
                   );
                 },
               )
@@ -100,6 +130,12 @@ class _HomeState extends State<Home> {
 
   Widget chatRoomList() {
     return Container();
+  }
+
+  @override
+  void initState() {
+    getMyInfoFromSharedPref();
+    super.initState();
   }
 
   @override
