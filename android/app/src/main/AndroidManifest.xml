@@ -7,8 +7,10 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="EasyChat"
-        android:icon="@mipmap/ic_launcher">
+        android:label="VisionChat"
+        android:icon="@mipmap/launcher_icon">
+        android:allowBackup="false"
+        android:fullBackupOnly="false"
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

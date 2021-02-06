@@ -50,4 +50,28 @@ class DatabaseMethods {
           .set(chatRoomInfoMap);
     }
   }
+
+  Future<Stream<QuerySnapshot>> fetchingAllMessages(String chatRoomId) async {
+    return FirebaseFirestore.instance
+        .collection("chatRooms")
+        .doc(chatRoomId)
+        .collection("chats")
+        .orderBy("timestamp", descending: true)
+        .snapshots();
+  }
+
+  Future<Stream<QuerySnapshot>> getRecentChatRooms(String myUsername) async {
+    return FirebaseFirestore.instance
+        .collection("chatRooms")
+        .orderBy("lastMessageTs", descending: true)
+        .where("users", arrayContains: myUsername)
+        .snapshots();
+  }
+
+  Future<QuerySnapshot> getThisUserDetails(String userName) async {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .where("userName", isEqualTo: userName)
+        .get();
+  }
 }

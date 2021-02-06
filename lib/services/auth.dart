@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthMethods {
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   getCurrentUser() async {
     return auth.currentUser;
@@ -16,7 +17,6 @@ class AuthMethods {
 
   signInWithGoogle(BuildContext context) async {
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-    final GoogleSignIn _googleSignIn = GoogleSignIn();
 
     final GoogleSignInAccount googleSignInAccount =
         await _googleSignIn.signIn();
@@ -59,8 +59,9 @@ class AuthMethods {
   }
 
   Future signOut() async {
-    auth.signOut();
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.clear();
+    await _googleSignIn.signOut();
+    await auth.signOut();
+    final pref = await SharedPreferences.getInstance();
+    await pref.clear();
   }
 }
