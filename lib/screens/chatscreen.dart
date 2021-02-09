@@ -37,42 +37,40 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   addMessage(bool isSendClicked) {
-    if (messageTextEditingController.text != "") {
-      String message = messageTextEditingController.text;
-      var lastMsgTimeStamp = DateTime.now();
+    String message = messageTextEditingController.text;
+    var lastMsgTimeStamp = DateTime.now();
 
-      if (isSendClicked) {
-        //removing the text from inputfield
-        messageTextEditingController.text = "";
-      }
+    if (isSendClicked) {
+      //removing the text from inputfield
+      messageTextEditingController.text = "";
+    }
 
-      Map<String, dynamic> messageInfoMap = {
-        "messageText": message,
-        "sender": myUsername,
-        "timestamp": lastMsgTimeStamp,
-        "imgUrl": myProfilePic,
+    Map<String, dynamic> messageInfoMap = {
+      "messageText": message,
+      "sender": myUsername,
+      "timestamp": lastMsgTimeStamp,
+      "imgUrl": myProfilePic,
+    };
+
+    // messageId
+    if (messageId == "") {
+      messageId = randomAlphaNumeric(12);
+    }
+
+    DatabaseMethods()
+        .addMessagetoDB(chatRoomId, messageId, messageInfoMap)
+        .then((value) {
+      Map<String, dynamic> lastMessageInfoMap = {
+        "lastMessage": message,
+        "lastMessageSendBy": myUsername,
+        "lastMessageTs": lastMsgTimeStamp,
       };
 
-      // messageId
-      if (messageId == "") {
-        messageId = randomAlphaNumeric(12);
-      }
-
-      DatabaseMethods()
-          .addMessagetoDB(chatRoomId, messageId, messageInfoMap)
-          .then((value) {
-        Map<String, dynamic> lastMessageInfoMap = {
-          "lastMessage": message,
-          "lastMessageSendBy": myUsername,
-          "lastMessageTs": lastMsgTimeStamp,
-        };
-
-        DatabaseMethods().updateLastMessaage(chatRoomId, lastMessageInfoMap);
-      });
-      if (isSendClicked) {
-        // making the messageId to blank so that we can regenerate it for the next message
-        messageId = "";
-      }
+      DatabaseMethods().updateLastMessaage(chatRoomId, lastMessageInfoMap);
+    });
+    if (isSendClicked) {
+      // making the messageId to blank so that we can regenerate it for the next message
+      messageId = "";
     }
   }
 
@@ -82,36 +80,43 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget messageDisplayTile(String messagetext, bool isSendByMe) {
-    return Row(
-      mainAxisAlignment:
-          isSendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-      children: [
-        Flexible(
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-            decoration: BoxDecoration(
-              color: Colors.grey[400],
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0),
-                bottomLeft:
-                    isSendByMe ? Radius.circular(15.0) : Radius.circular(0),
-                bottomRight:
-                    isSendByMe ? Radius.circular(0) : Radius.circular(15.0),
+    messagetext = messagetext.trim();
+    return (messagetext != "")
+        ? Row(
+            mainAxisAlignment:
+                isSendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+            children: [
+              Flexible(
+                child: Container(
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.0),
+                      topRight: Radius.circular(15.0),
+                      bottomLeft: isSendByMe
+                          ? Radius.circular(15.0)
+                          : Radius.circular(0),
+                      bottomRight: isSendByMe
+                          ? Radius.circular(0)
+                          : Radius.circular(15.0),
+                    ),
+                  ),
+                  child: Text(
+                    messagetext,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15.0,
+                    ),
+                  ),
+                ),
               ),
-            ),
-            child: Text(
-              messagetext,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15.0,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+            ],
+          )
+        : Container();
   }
 
   Widget displayAllMessages() {
@@ -236,7 +241,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        addMessage(true);
+                        if (messageTextEditingController.text != "") {
+                          addMessage(true);
+                        }
                       },
                       child: Container(
                         padding: EdgeInsets.only(left: 8.0),
