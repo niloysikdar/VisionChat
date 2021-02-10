@@ -1,4 +1,4 @@
-# EasyChat
+# VisionChat
 
 VisionChat is an user-oriented communication app which provides you a realtime texting environment, enabling people to get insights into what someone is typing while talking to them. With a single-tap SignUp process, you will find yourself becoming a part of the community where you can find other registered users on the app with a global search. Customize your profile and go!
 
