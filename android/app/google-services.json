@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:613201545333:android:adf446e0273c6d7a87903c",
+        "mobilesdk_app_id": "1:613201545333:android:afaee2df582fad9787903c",
         "android_client_info": {
-          "package_name": "com.example.EasyChat"
+          "package_name": "com.visionchat.android"
         }
       },
       "oauth_client": [
         {
-          "client_id": "613201545333-r1nei9bnbbhpsqjhvmb8mo4sdh7usdh2.apps.googleusercontent.com",
+          "client_id": "613201545333-9ksjpb2bs030lgkk1rv9v92n77ckubdb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.EasyChat",
-            "certificate_hash": "a9214d4a02714e06e4f9b7ff1fbf83e9b6c9b11c"
+            "package_name": "com.visionchat.android",
+            "certificate_hash": "d7126d7e8df9109930d3da8d61331117d2282ed3"
           }
         },
         {
