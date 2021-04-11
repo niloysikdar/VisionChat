@@ -24,6 +24,13 @@
 
 **VisionChat is an user-oriented communication app which provides you a realtime texting environment, enabling people to get insights into what someone is typing while talking to them. With a single-tap SignUp process, you will find yourself becoming a part of the community where you can find other registered users on the app with a global search. Customize your profile and go 🎉**
 
+<p align="center">
+<img src="screenshots/pic1.png" height="300">
+<img src="screenshots/pic2.jpg" height="300">
+<img src="screenshots/pic3.png" height="300">
+<img src="screenshots/pic4.png" height="300">
+</p>
+
 ## Tech Stack
 
 - Flutter
@@ -54,7 +61,6 @@ samples, guidance on mobile development, and a full API reference.
 ## Author Info
 
 - LinkedIn - [Niloy Sikdar](https://www.linkedin.com/in/niloysikdar/)
+- GitHub - [Niloy Sikdar](https://github.com/niloysikdar)
 
 [Back To The Top](#VisionChat)
-
-
