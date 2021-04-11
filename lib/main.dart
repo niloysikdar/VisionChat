@@ -1,6 +1,6 @@
-import 'package:EasyChat/screens/home.dart';
-import 'package:EasyChat/screens/signin.dart';
-import 'package:EasyChat/services/auth.dart';
+import 'package:visionchat/screens/home.dart';
+import 'package:visionchat/screens/signin.dart';
+import 'package:visionchat/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 

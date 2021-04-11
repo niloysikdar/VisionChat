@@ -1,5 +1,5 @@
-import 'package:EasyChat/services/database.dart';
-import 'package:EasyChat/services/sharedprefhelper.dart';
+import 'package:visionchat/services/database.dart';
+import 'package:visionchat/services/sharedprefhelper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';

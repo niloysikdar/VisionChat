@@ -1,4 +1,4 @@
-import 'package:EasyChat/services/auth.dart';
+import 'package:visionchat/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class SignInPage extends StatefulWidget {

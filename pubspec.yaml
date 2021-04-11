@@ -1,4 +1,4 @@
-name: EasyChat
+name: visionchat
 description: A new Flutter project.
 publish_to: 'none'
 version: 1.0.0+1
@@ -16,14 +16,13 @@ dependencies:
   cloud_firestore: ^0.16.0
   shared_preferences: ^0.5.12+4
   random_string: ^2.1.0
-  
-
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.8.1
   flutter_launcher_name: ^0.0.1
+  change_app_package_name: ^0.1.3
 
 flutter:
   uses-material-design: true

@@ -1,6 +1,6 @@
-import 'package:EasyChat/screens/home.dart';
-import 'package:EasyChat/services/database.dart';
-import 'package:EasyChat/services/sharedprefhelper.dart';
+import 'package:visionchat/screens/home.dart';
+import 'package:visionchat/services/database.dart';
+import 'package:visionchat/services/sharedprefhelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

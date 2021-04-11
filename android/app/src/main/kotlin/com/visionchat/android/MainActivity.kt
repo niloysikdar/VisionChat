@@ -1,4 +1,4 @@
-package com.example.EasyChat
+package com.visionchat.android
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,8 +1,8 @@
-import 'package:EasyChat/screens/chatscreen.dart';
-import 'package:EasyChat/screens/signin.dart';
-import 'package:EasyChat/services/auth.dart';
-import 'package:EasyChat/services/database.dart';
-import 'package:EasyChat/services/sharedprefhelper.dart';
+import 'package:visionchat/screens/chatscreen.dart';
+import 'package:visionchat/screens/signin.dart';
+import 'package:visionchat/services/auth.dart';
+import 'package:visionchat/services/database.dart';
+import 'package:visionchat/services/sharedprefhelper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
